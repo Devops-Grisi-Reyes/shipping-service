@@ -100,7 +100,7 @@ jobs:
           | jq -r '.projectStatus.status')
         echo "SonarQube quality gate status: $quality_gate_status"
 
-  test:
+test:
     name: Test
     needs: build
     runs-on: ubuntu-latest
