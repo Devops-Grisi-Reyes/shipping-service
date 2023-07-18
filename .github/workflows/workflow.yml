@@ -44,7 +44,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: |
         analysis_id=$(curl --location --request GET \
-          "https://sonarcloud.io/api/project_analyses/search?project=Devops-Grisi-Reyes_shipping-service&branch=dev" \
+          "https://sonarcloud.io/api/project_analyses/search?project=Devops-Grisi-Reyes_shipping-service" \
           --header "Authorization: Basic ${{ secrets.SONAR_TOKEN }}" \
           --header "Content-Type: application/json" \
           --header "Accept: application/json" \
