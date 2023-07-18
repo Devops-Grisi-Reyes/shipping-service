@@ -11,6 +11,6 @@ FROM openjdk:11
 
 COPY --from=builder /app/target/shipping-service-example-*.jar /target/shipping-service-example.jar
 
-EXPOSE 5003
+EXPOSE 8080
 
 CMD ["java", "-jar", "/target/shipping-service-example.jar"]
