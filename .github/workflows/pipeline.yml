@@ -113,8 +113,12 @@ jobs:
           TOKEN: ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}
         run: |
           curl -H "Authorization: token ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}" \
-            -H 'Accept: application/vnd.github.raw' \
+            -H 'Accept: application/vnd.github.v3+json' \
             -O \
-            -L https://api.github.com/repos/Devops-Grisi-Reyes/Infra/contents/deployments/shipping-service-deployment.yml
+            -L https://raw.githubusercontent.com/Devops-Grisi-Reyes/Infra/${{ github.ref_name }}/deployments/shipping-service-deployment.yml
+            
             
           kubectl apply -f shipping-service-deployment.yml --validate=false
+
+    # -H 'Accept: application/vnd.github.raw+json' \
+    # -L https://api.github.com/repos/Devops-Grisi-Reyes/Infra/contents/deployments/shipping-service-deployment.yml
