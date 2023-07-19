@@ -118,7 +118,7 @@ jobs:
             -L https://raw.githubusercontent.com/Devops-Grisi-Reyes/Infra/${{ github.ref_name }}/deployments/shipping-service-deployment.yml
             
             
-          kubectl apply -f shipping-service-deployment.yml --validate=false
+          kubectl apply -f shipping-service-deployment.yml
 
     # -H 'Accept: application/vnd.github.raw+json' \
     # -L https://api.github.com/repos/Devops-Grisi-Reyes/Infra/contents/deployments/shipping-service-deployment.yml
