@@ -15,6 +15,7 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  PERSONAL_ACCESS_TOKEN_INFRA: ${{ secrets.PERSONAL_ACCESS_TOKEN_INFRA }}
 
 jobs:
   build:
@@ -46,7 +47,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
-          cache-to: type=gha,mode=max    
+          cache-to: type=gha,mode=max
   test:
     name: Test
     needs: build
@@ -84,7 +85,7 @@ jobs:
           if [ $(jq -r '.projectStatus.status' result.json) = ERROR ]; then
             echo "Se aborta el pipeline debido a que no cumple con los Quality Gates"
             exit 1
-          fi    
+          fi
 
   deploy:
     needs: [build, test]
@@ -105,8 +106,14 @@ jobs:
           aws-region: ${{ env.AWS_REGION}}
 
       - name: Update kube config
-        run: aws eks update-kubeconfig --name cluster-grisi-reyes-${{ github.ref_name }}
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION}} --name cluster-grisi-reyes-${{ github.ref_name }}
 
       - name: Deploy to EKS
+        env:
+          TOKEN: ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}
         run: |
-          kubectl apply -f deployment/deployment.yml
+          curl -H "Authorization: token ${TOKEN}" \
+            -H 'Accept: application/vnd.github.v3.raw' \
+            -O \
+            -L https://api.github.com/repos/Devops-Grisi-Reyes/Infra/contents/deployments/products-service-deployment.yml
+          kubectl apply -f deployment.yml
