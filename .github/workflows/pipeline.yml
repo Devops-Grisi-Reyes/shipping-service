@@ -115,12 +115,5 @@ jobs:
           token: ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}
 
       - name: Deploy to EKS
-        env:
-          TOKEN: ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}
         run: |
           kubectl apply -f ./deployments/shipping-service-deployment.yml
-
-# curl -H "Authorization: token ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}" \
-#   -H 'Accept: application/vnd.github.raw+json' \
-#   -O \
-#   -L https://api.github.com/repos/Devops-Grisi-Reyes/Infra/contents/deployments/shipping-service-deployment.yml
