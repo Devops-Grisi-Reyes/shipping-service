@@ -118,7 +118,7 @@ jobs:
         env:
           TOKEN: ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}
         run: |
-          kubectl apply -f ./infra/shipping-service-deployment.yml --validate=false
+          kubectl apply -f ./infra/shipping-service-deployment.yml
 
 # curl -H "Authorization: token ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}" \
 #   -H 'Accept: application/vnd.github.raw+json' \
