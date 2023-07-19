@@ -115,5 +115,5 @@ jobs:
           curl -H "Authorization: token ${TOKEN}" \
             -H 'Accept: application/vnd.github.v3.raw' \
             -O \
-            -L https://api.github.com/repos/Devops-Grisi-Reyes/Infra/contents/deployments/products-service-deployment.yml
+            -L https://api.github.com/repos/Devops-Grisi-Reyes/Infra/contents/deployments/shipping-service-deployment.yml
           kubectl apply -f deployment.yml
