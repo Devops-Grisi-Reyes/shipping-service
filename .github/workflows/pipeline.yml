@@ -112,7 +112,7 @@ jobs:
         with:
           path: ''
           repository: Devops-Grisi-Reyes/Infra
-          ref: ${{ github.ref }}
+          ref: ${{ github.ref_name }}
           token: ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}
 
       - name: Deploy to EKS
