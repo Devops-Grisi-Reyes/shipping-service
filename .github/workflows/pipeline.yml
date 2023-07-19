@@ -92,7 +92,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
       - name: Install kubectl
         uses: azure/setup-kubectl@v2.0
         id: install
@@ -108,17 +108,19 @@ jobs:
       - name: Update kube config
         run: aws eks update-kubeconfig --region ${{ env.AWS_REGION}} --name cluster-grisi-reyes-${{ github.ref_name }}
 
+      - uses: actions/checkout@v3
+        with:
+          path: './infra'
+          repository: Devops-Grisi-Reyes/Infra
+          token: ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}
+
       - name: Deploy to EKS
         env:
           TOKEN: ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}
         run: |
-          curl -H "Authorization: token ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}" \
-            -H 'Accept: application/vnd.github.v3+json' \
-            -O \
-            -L https://raw.githubusercontent.com/Devops-Grisi-Reyes/Infra/${{ github.ref_name }}/deployments/shipping-service-deployment.yml
-            
-            
-          kubectl apply -f shipping-service-deployment.yml
+          kubectl apply -f ./infra/shipping-service-deployment.yml --validate=false
 
-    # -H 'Accept: application/vnd.github.raw+json' \
-    # -L https://api.github.com/repos/Devops-Grisi-Reyes/Infra/contents/deployments/shipping-service-deployment.yml
+# curl -H "Authorization: token ${{ env.PERSONAL_ACCESS_TOKEN_INFRA }}" \
+#   -H 'Accept: application/vnd.github.raw+json' \
+#   -O \
+#   -L https://api.github.com/repos/Devops-Grisi-Reyes/Infra/contents/deployments/shipping-service-deployment.yml
